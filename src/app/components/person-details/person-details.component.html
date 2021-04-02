@@ -1,2 +1,134 @@
-<button mat-raised-button (click)="backToPeopleList()">Back to people list</button>
-<pre>{{person|json}}</pre>
+<app-go-to-link-button></app-go-to-link-button>
+<app-go-to-link-button [icon]="editIcon" [route]="'/people/' + person.id + '/edit'"
+  [innerText]="'Edit ' + person.name + ' Details'"></app-go-to-link-button>
+
+<div class="person-details">
+
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="personalInfoPanelExpanded"
+      (opened)="personalInfoPanelExpanded = true"
+      (closed)="personalInfoPanelExpanded = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Personal Info
+        </mat-panel-title>
+        <mat-panel-description>
+          User's personal information
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div>
+        <div class="person-details__panel-group">
+          <b>Name</b>
+          <p>{{ person.name }}</p>
+        </div>
+
+        <div class="person-details__panel-group">
+          <b>Date Registered</b>
+          <p>{{ person.registered }}</p>
+        </div>
+
+        <div class="person-details__panel-group">
+          <b>Active</b>
+          <p>{{ person.isActive }}</p>
+        </div>
+
+        <div class="person-details__panel-group">
+          <b>Picture</b>
+          <p>{{ person.picture }}</p>
+        </div>
+
+        <div class="person-details__panel-group">
+          <b>Gender</b>
+          <p>{{ person.gender }}</p>
+        </div>
+
+        <div class="person-details__panel-group">
+          <b>Age</b>
+          <p>{{ person.age }}</p>
+        </div>
+
+        <div class="person-details__panel-group">
+          <b>Eye Color</b>
+          <p>{{ person.eyeColor }}</p>
+        </div>
+
+        <div class="person-details__panel-group">
+          <b>About</b>
+          <p>{{ person.about }}</p>
+        </div>
+
+        <div class="person-details__panel-group">
+          <b>Balance</b>
+          <p>{{ person.balance }}</p>
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="companyInfoPanelExpanded"
+      (opened)="companyInfoPanelExpanded = true"
+      (closed)="companyInfoPanelExpanded = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Company Info
+        </mat-panel-title>
+        <mat-panel-description>
+          User's company information
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div>
+        <div class="person-details__panel-group">
+          <b>Company</b>
+          <p>{{ person.company }}</p>
+        </div>
+
+        <div class="person-details__panel-group">
+          <b>Email</b>
+          <p>{{ person.email }}</p>
+        </div>
+
+        <div class="person-details__panel-group">
+          <b>Phone</b>
+          <p>{{ person.phone }}</p>
+        </div>
+
+        <div class="person-details__panel-group">
+          <b>Latitude</b>
+          <p>{{ person.latitude }}</p>
+        </div>
+
+        <div class="person-details__panel-group">
+          <b>Longitude</b>
+          <p>{{ person.longitude }}</p>
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="miscInfoPanelExpanded"
+      (opened)="miscInfoPanelExpanded = true"
+      (closed)="miscInfoPanelExpanded = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Miscellaneous Info
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <div class="person-details__panel-group">
+          <b>Tags</b>
+          <mat-chip-list aria-label="Tags">
+            <mat-chip *ngFor="let tag of person.tags">{{ tag }}</mat-chip>
+          </mat-chip-list>
+        </div>
+
+        <div class="person-details__panel-group">
+          <b>Friends</b>
+          <ol>
+            <li *ngFor="let friend of person.friends">
+              {{ friend.name }}
+            </li>
+          </ol>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+</div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PersonInterface } from 'src/app/models/person.interface';
 import { PersonService } from 'src/app/services/person.service';
-import { faEdit, IconDefinition } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard, faEdit, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-people',
@@ -10,7 +10,8 @@ import { faEdit, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 })
 export class PeopleComponent implements OnInit {
   public faEdit: IconDefinition = faEdit;
-  public headerColumns: string[] = ['name', 'date-registered', 'active', 'edit-icon'];
+  public faView: IconDefinition = faAddressCard;
+  public headerColumns: string[] = ['name', 'date-registered', 'active', 'actions'];
   public people: PersonInterface[] = [];
 
   constructor(private personService: PersonService) {

@@ -46,4 +46,16 @@ export class PersonService {
       })
     );
   }
+
+  public updatePerson(id: string, person: PersonInterface): Observable<PersonInterface> {
+    const URL: string = `${API_URL}/people/${id}`;
+
+    return this.http.put<PersonInterface>(URL, person).pipe(
+      map((person: PersonInterface) => {
+        this.personCache.set(URL, person);
+        return person;
+      })
+    );
+  }
+
 }

@@ -1,0 +1,24 @@
+.person-form {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+
+  @media screen and (min-width: 668px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas: 
+      "name active"
+      "gender age"
+      "about ."
+      "submitButton .";
+    align-items: center;
+  }
+
+  .person-form-field {
+    width: inherit;
+    padding: 10px 0;
+  }
+
+  button[type=submit] {
+    grid-area: submitButton;
+  }
+}

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { IconDefinition } from '@fortawesome/fontawesome-common-types';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { PersonInterface } from 'src/app/models/person.interface';
 
 @Component({
@@ -7,20 +9,15 @@ import { PersonInterface } from 'src/app/models/person.interface';
   templateUrl: './person-details.component.html',
   styleUrls: ['./person-details.component.scss']
 })
-export class PersonDetailsComponent implements OnInit {
+export class PersonDetailsComponent {
+  public editIcon: IconDefinition = faEdit;
   public person: PersonInterface = null;
+  public personalInfoPanelExpanded: boolean = true;
+  public companyInfoPanelExpanded: boolean = false;
+  public miscInfoPanelExpanded: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) {
-    this.person = this.route.snapshot.data as PersonInterface;
-  }
-
-  public ngOnInit(): void {
-    // this.personService.person$
-    //   .subscribe((person: PersonInterface) => console.log(person));
-  }
-
-  public backToPeopleList(): void {
-    this.router.navigate(['/people']);
+  constructor(private route: ActivatedRoute) {
+    this.person = this.route.snapshot.data.person as PersonInterface;
   }
 
 }
