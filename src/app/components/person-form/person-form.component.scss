@@ -4,21 +4,54 @@
   width: 100%;
 
   @media screen and (min-width: 668px) {
-    grid-template-columns: repeat(2, 1fr);
     grid-template-areas: 
       "name active"
       "gender age"
-      "about ."
-      "submitButton .";
+      "about about"
+      "submitButton cancelButton";
     align-items: center;
+  }
+
+  &__edit {
+    @media screen and (min-width: 668px) {
+      grid-template-areas:
+        "name name active active"
+        "gender gender age age"
+        "about about about about"
+        ". submitButton submitButton .";
+    }
   }
 
   .person-form-field {
     width: inherit;
     padding: 10px 0;
+
+    &__name {
+      grid-area: name;
+    }
+
+    &__active {
+      grid-area: active;
+    }
+
+    &__gender {
+      grid-area: gender;
+    }
+
+    &__age {
+      grid-area: age;
+    }
+
+    &__about {
+      grid-area: about;
+    }
   }
 
   button[type=submit] {
     grid-area: submitButton;
+  }
+
+  button[type=button] {
+    grid-area: cancelButton;
   }
 }

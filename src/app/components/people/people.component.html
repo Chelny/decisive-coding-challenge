@@ -1,5 +1,7 @@
-<app-go-to-link-button [color]="'primary'" [icon]="faAdd"
-  [innerText]="'Add person'" (click)="openAddPersonModal()"></app-go-to-link-button>
+<div align="end">
+  <app-go-to-link-button [color]="'primary'" [icon]="faAdd"
+    [innerText]="'Add person'" (click)="openAddPersonModal()"></app-go-to-link-button>
+</div>
 
 <mat-divider></mat-divider>
 
@@ -38,10 +40,12 @@
     <ng-container matColumnDef="actions" stickyEnd>
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let person">
-        <a mat-button [routerLink]="['/people', person.id]" routerLinkActive="active">
+        <a mat-button color="primary" [routerLink]="['/people', person.id]"
+          routerLinkActive="active">
           <fa-icon [icon]="faView"></fa-icon>
         </a>
-        <a mat-button [routerLink]="['/people', person.id, 'edit']" routerLinkActive="active">
+        <a mat-button color="primary" [routerLink]="['/people', person.id, 'edit']"
+          routerLinkActive="active">
           <fa-icon [icon]="faEdit"></fa-icon>
         </a>
       </td>
@@ -51,5 +55,6 @@
     <tr mat-row *matRowDef="let row; columns: headerColumns;"></tr>
   </table>
 
-  <!-- <mat-paginator [length]="10" [pageSize]="50" showFirstLastButtons></mat-paginator> -->
+  <mat-paginator [length]="500" [pageSize]="25" showFirstLastButtons
+    (page)="changePage($event)"></mat-paginator>
 </div>

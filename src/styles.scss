@@ -8,14 +8,23 @@ html {
 body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 16px;
-  // background-color: #CCCCCC;
+  background-color: #EAEAEA;
 }
 
 app-root {
-  // display: inline-block;
-  // width: 100%;
-  // margin: 0 50px;
-  // padding: 20px;
-  // background-color: #FFFFFF;
-  // box-sizing: border-box;
+  display: block;
+  width: 800px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #FFFFFF;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+div[align=space-between] {
+  display: flex;
+  justify-content: space-between;
 }

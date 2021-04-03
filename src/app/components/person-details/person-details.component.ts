@@ -12,6 +12,7 @@ import { PersonInterface } from 'src/app/models/person.interface';
 export class PersonDetailsComponent {
   public editIcon: IconDefinition = faEdit;
   public person: PersonInterface = null;
+  public lastViewedPage: string = '';
   public personalInfoPanelExpanded: boolean = true;
   public companyInfoPanelExpanded: boolean = false;
   public miscInfoPanelExpanded: boolean = false;

@@ -5,22 +5,21 @@
 </h2>
 <ng-template #editPerson>Edit {{ person.name }}'s Info</ng-template>
 
-<div *ngIf="person.id">
-  <app-go-to-link-button [route]="'/people'"></app-go-to-link-button>
-  <app-go-to-link-button [color]="'warn'" [icon]="faDelete" 
-    [innerText]="'Delete ' + person.name" (click)="deletePerson(person)"></app-go-to-link-button>
-</div>
+<app-go-to-link-button *ngIf="person.id" [route]="'/people'"></app-go-to-link-button>
 
-<form class="person-form" [formGroup]="personForm" (ngSubmit)="savePerson()" novalidate>
-  <mat-form-field class="person-form-field">
+<mat-divider></mat-divider>
+
+<form class="person-form" [ngClass]="{'person-form__edit' : !!person.id}"
+  [formGroup]="personForm" (ngSubmit)="savePerson()" novalidate>
+  <mat-form-field class="person-form-field person-form-field__name" appearance="fill">
     <mat-label>Name</mat-label>
     <input matInput formControlName="name">
   </mat-form-field>
 
-  <mat-checkbox class="person-form-field"
+  <mat-checkbox class="person-form-field  person-form-field__active"
     formControlName="isActive">Active</mat-checkbox>
 
-  <mat-form-field class="person-form-field">
+  <mat-form-field class="person-form-field person-form-field__gender" appearance="fill">
     <mat-label>Gender</mat-label>
     <mat-select matInput formControlName="gender">
       <mat-option>--- Select ---</mat-option>
@@ -29,18 +28,29 @@
     </mat-select>
   </mat-form-field>
 
-  <mat-form-field class="person-form-field">
+  <mat-form-field class="person-form-field person-form-field__age" appearance="fill">
     <mat-label>Age</mat-label>
     <input matInput type="number" formControlName="age">
   </mat-form-field>
 
-  <mat-form-field class="person-form-field">
+  <mat-form-field class="person-form-field person-form-field__about" appearance="fill">
     <mat-label>About</mat-label>
     <textarea matInput formControlName="about"></textarea>
   </mat-form-field>
 
-  <button type="submit" mat-raised-button color="primary"
-    [disabled]="personForm.invalid && (personForm.dirty || !person.id)">
-    Save
-  </button>
+  <ng-container align="space-between">
+    <button type="submit" mat-raised-button color="primary"
+      [disabled]="personForm.invalid && (personForm.dirty || !person.id)">
+      Save
+    </button>
+    <button type="button" mat-raised-button *ngIf="!person.id"
+      (click)="closeDialog()" cdkFocusInitial>
+      Cancel
+    </button>
+  </ng-container>
 </form>
+
+<div *ngIf="person.id" align="center">
+  <app-go-to-link-button [color]="'warn'" [icon]="faDelete" 
+    [innerText]="'Delete ' + person.name" (click)="deletePerson(person)"></app-go-to-link-button>
+</div>

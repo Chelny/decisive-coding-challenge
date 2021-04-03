@@ -50,4 +50,8 @@ export class PeopleComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  public changePage(pagination: {length: number, pageIndex: number, pageSize: number, previousPageIndex?: number}): void {
+    this.personService.getPeople(pagination.pageIndex++);
+  }
+
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, filter, map } from 'rxjs/operators';
 import { PersonInterface } from 'src/app/models/person.interface';
 import { ToastService } from 'src/app/services/toast.service';
 
@@ -20,14 +20,21 @@ export class PersonService {
   constructor(private http: HttpClient,
     private toastService: ToastService) { }
 
-  public getPeople(): void {
-    const URL: string = `${API_URL}/people`;
+  public getPeople(page: number = 0, size: number = 25): void {
+    const URL: string = `${API_URL}/people?page=${page+1}&size=${size}`;
     const cachedPeople: PersonInterface[] = this.peopleCache.get(URL);
     let people: Observable<PersonInterface[]> = cachedPeople ? of(cachedPeople) : this.http.get<PersonInterface[]>(URL);
 
     people.pipe(
       map((people: PersonInterface[]) => {
-        this.people.next(people);
+        const filteredPeople: PersonInterface[] = people
+          .filter((person: PersonInterface, index: number) => {
+            if ((index >= page * size) && (index < (page + 1) * size)) {
+              return person;
+            }
+          });
+  
+        this.people.next(filteredPeople);
         this.peopleCache.set(URL, people);
       }),
       catchError((err: HttpErrorResponse) => {

@@ -9,6 +9,7 @@ import { PersonService } from 'src/app/services/person.service';
   providedIn: 'root'
 })
 export class PersonResolver implements Resolve<PersonInterface> {
+
   constructor(private router: Router, private personService: PersonService) {}
 
   public resolve(

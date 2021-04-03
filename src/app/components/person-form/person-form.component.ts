@@ -14,8 +14,9 @@ import { AlertDialogComponent, matDialogAction } from 'src/app/templates/alert-d
 })
 export class PersonFormComponent implements OnInit {
   public faDelete: IconDefinition = faTrash;
-  public personForm: FormGroup;
   public person: PersonInterface = null;
+  public lastViewedPage: string = '';
+  public personForm: FormGroup;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -39,7 +40,7 @@ export class PersonFormComponent implements OnInit {
       } else {
         this.personService.createPerson(data).subscribe((person: PersonInterface) => {
           this.router.navigate(['/people', person.id]);
-          this.dialog.closeAll();
+          this.closeDialog();
         });
       }
     }
@@ -60,6 +61,10 @@ export class PersonFormComponent implements OnInit {
           .subscribe(() => this.router.navigate(['/people']));
       }
     });
+  }
+
+  public closeDialog(): void {
+    this.dialog.closeAll();
   }
 
   private createForm(): void {
