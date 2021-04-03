@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { PersonInterface } from 'src/app/models/person.interface';
+import { ToastService } from 'src/app/services/toast.service';
 
 const API_URL = 'http://localhost:4500';
 
@@ -16,7 +17,8 @@ export class PersonService {
   private peopleCache: Map<string, PersonInterface[]> = new Map<string, PersonInterface[]>();
   private personCache: Map<string, PersonInterface> = new Map<string, PersonInterface>();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private toastService: ToastService) { }
 
   public getPeople(): void {
     const URL: string = `${API_URL}/people`;
@@ -27,6 +29,10 @@ export class PersonService {
       map((people: PersonInterface[]) => {
         this.people.next(people);
         this.peopleCache.set(URL, people);
+      }),
+      catchError((err: HttpErrorResponse) => {
+        console.error(err.message);
+        return of(<PersonInterface[]>{});
       })
     ).subscribe();
   }
@@ -36,8 +42,13 @@ export class PersonService {
 
     return this.http.post<PersonInterface>(URL, person).pipe(
       map((person: PersonInterface) => {
+        this.toastService.showToast(`${person.name} has been successfully created!`);
         this.personCache.set(`${URL}/${person.id}`, person);
         return person;
+      }),
+      catchError((err: HttpErrorResponse) => {
+        console.error(err.message);
+        return of(<PersonInterface>{});
       })
     );
   }
@@ -54,6 +65,10 @@ export class PersonService {
       map((person: PersonInterface) => {
         this.personCache.set(URL, person);
         return person;
+      }),
+      catchError((err: HttpErrorResponse) => {
+        console.error(err.message);
+        return of(<PersonInterface>{});
       })
     );
   }
@@ -63,8 +78,29 @@ export class PersonService {
 
     return this.http.put<PersonInterface>(URL, person).pipe(
       map((person: PersonInterface) => {
+        this.toastService.showToast(`${person.name}\'s info has been successfully updated!`);
         this.personCache.set(URL, person);
         return person;
+      }),
+      catchError((err: HttpErrorResponse) => {
+        console.error(err.message);
+        return of(<PersonInterface>{});
+      })
+    );
+  }
+
+  public deletePerson(person: PersonInterface): Observable<PersonInterface> {
+    const URL: string = `${API_URL}/people/${person.id}`;
+
+    return this.http.delete<PersonInterface>(URL).pipe(
+      map(() => {
+        this.toastService.showToast(`${person.name} has been successfully deleted!`);
+        this.personCache.delete(URL);
+        return <PersonInterface>{};
+      }),
+      catchError((err: HttpErrorResponse) => {
+        console.error(err.message);
+        return of(<PersonInterface>{});
       })
     );
   }

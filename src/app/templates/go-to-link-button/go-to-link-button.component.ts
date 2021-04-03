@@ -9,7 +9,7 @@ import { faArrowCircleLeft, IconDefinition } from '@fortawesome/free-solid-svg-i
 })
 export class GoToLinkButtonComponent {
   @Input() public color: string = 'default';
-  @Input() public route: string = '/people';
+  @Input() public route: string = '';
   @Input() public icon: IconDefinition = faArrowCircleLeft;
   @Input() public innerText: string = 'Go to People List';
 

@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { faTrash, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { PersonInterface } from 'src/app/models/person.interface';
 import { PersonService } from 'src/app/services/person.service';
+import { AlertDialogComponent, matDialogAction } from 'src/app/templates/alert-dialog/alert-dialog.component';
 
 @Component({
   selector: 'app-person-form',
@@ -10,12 +13,14 @@ import { PersonService } from 'src/app/services/person.service';
   styleUrls: ['./person-form.component.scss']
 })
 export class PersonFormComponent implements OnInit {
+  public faDelete: IconDefinition = faTrash;
   public personForm: FormGroup;
   public person: PersonInterface = null;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
+    private dialog: MatDialog,
     private personService: PersonService) {
     this.person = this.route.snapshot.data.person as PersonInterface || <PersonInterface>{};
   }
@@ -32,11 +37,29 @@ export class PersonFormComponent implements OnInit {
         this.personService.updatePerson(this.person.id, {...this.person, ...data})
           .subscribe(() => this.router.navigate(['/people', this.person.id]));
       } else {
-        this.personService.createPerson(data)
-          .subscribe((person: PersonInterface) =>
-            this.router.navigate(['/people', person.id]));
+        this.personService.createPerson(data).subscribe((person: PersonInterface) => {
+          this.router.navigate(['/people', person.id]);
+          this.dialog.closeAll();
+        });
       }
     }
+  }
+
+  public deletePerson(person: PersonInterface): void {
+    const dialogRef: MatDialogRef<AlertDialogComponent, any> = this.dialog
+      .open(AlertDialogComponent, {
+        data: {
+          title: 'Delete Person',
+          message: `Would you like to remove <b>${person.name}</b> from the records?`
+        }
+      });
+
+    dialogRef.afterClosed().subscribe((action: matDialogAction) => {
+      if (action === 'confirm') {
+        this.personService.deletePerson(person)
+          .subscribe(() => this.router.navigate(['/people']));
+      }
+    });
   }
 
   private createForm(): void {

@@ -4,10 +4,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatButtonModule } from '@angular/material/button';
 
 import { GoToLinkButtonComponent } from 'src/app/templates/go-to-link-button/go-to-link-button.component';
+import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 
 @NgModule({
   declarations: [
-    GoToLinkButtonComponent
+    GoToLinkButtonComponent,
+    AlertDialogComponent
   ],
   imports: [
     FontAwesomeModule,

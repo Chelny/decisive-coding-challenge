@@ -1,11 +1,15 @@
-<ng-container *ngIf="!person.id; else editPerson">
-  <h3>Add Person</h3>
-</ng-container>
-<ng-template #editPerson>
-  <h3>Edit {{ person.name }}'s Info</h3>
-</ng-template>
+<h2>
+  <ng-container *ngIf="!person.id; else editPerson">
+    Add Person
+  </ng-container>
+</h2>
+<ng-template #editPerson>Edit {{ person.name }}'s Info</ng-template>
 
-<app-go-to-link-button *ngIf="person.id"></app-go-to-link-button>
+<div *ngIf="person.id">
+  <app-go-to-link-button [route]="'/people'"></app-go-to-link-button>
+  <app-go-to-link-button [color]="'warn'" [icon]="faDelete" 
+    [innerText]="'Delete ' + person.name" (click)="deletePerson(person)"></app-go-to-link-button>
+</div>
 
 <form class="person-form" [formGroup]="personForm" (ngSubmit)="savePerson()" novalidate>
   <mat-form-field class="person-form-field">
@@ -36,7 +40,7 @@
   </mat-form-field>
 
   <button type="submit" mat-raised-button color="primary"
-    [disabled]="personForm.invalid && personForm.dirty">
+    [disabled]="personForm.invalid && (personForm.dirty || !person.id)">
     Save
   </button>
 </form>
