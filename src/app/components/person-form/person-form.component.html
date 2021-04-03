@@ -1,4 +1,11 @@
-<app-go-to-link-button></app-go-to-link-button>
+<ng-container *ngIf="!person.id; else editPerson">
+  <h3>Add Person</h3>
+</ng-container>
+<ng-template #editPerson>
+  <h3>Edit {{ person.name }}'s Info</h3>
+</ng-template>
+
+<app-go-to-link-button *ngIf="person.id"></app-go-to-link-button>
 
 <form class="person-form" [formGroup]="personForm" (ngSubmit)="savePerson()" novalidate>
   <mat-form-field class="person-form-field">
@@ -33,5 +40,3 @@
     Save
   </button>
 </form>
-
-<pre>{{person|json}}</pre>

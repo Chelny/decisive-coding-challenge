@@ -1,5 +1,7 @@
-<table mat-table [dataSource]="people" class="people-table" matSort
-    matSortActive="date-registered" matSortDisableClear matSortDirection="desc">
+<app-go-to-link-button [color]="'primary'" [icon]="faAdd" [innerText]="'Add person'"
+  (click)="openAddPersonModal()"></app-go-to-link-button>
+
+<table mat-table [dataSource]="people" class="people-table">
   <!-- Name Column -->
   <ng-container matColumnDef="name" sticky>
     <th mat-header-cell *matHeaderCellDef>Name</th>

@@ -8,14 +8,17 @@ import { faArrowCircleLeft, IconDefinition } from '@fortawesome/free-solid-svg-i
   styleUrls: ['./go-to-link-button.component.scss']
 })
 export class GoToLinkButtonComponent {
-  @Input() public icon: IconDefinition = faArrowCircleLeft;
+  @Input() public color: string = 'default';
   @Input() public route: string = '/people';
+  @Input() public icon: IconDefinition = faArrowCircleLeft;
   @Input() public innerText: string = 'Go to People List';
 
   constructor(private router: Router) { }
 
   public goTo(): void {
-    this.router.navigate([this.route]);
+    if (this.route) {
+      this.router.navigate([this.route]);
+    }
   }
 
 }

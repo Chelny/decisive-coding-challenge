@@ -13,12 +13,11 @@ export class PersonFormComponent implements OnInit {
   public personForm: FormGroup;
   public person: PersonInterface = null;
 
-  constructor(
-    private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
     private personService: PersonService) {
-    this.person = this.route.snapshot.data.person as PersonInterface;
+    this.person = this.route.snapshot.data.person as PersonInterface || <PersonInterface>{};
   }
 
   public ngOnInit(): void {
@@ -28,8 +27,15 @@ export class PersonFormComponent implements OnInit {
   public savePerson(): void {
     if (this.personForm.valid) {
       const data: PersonInterface = this.personForm.getRawValue() as PersonInterface;
-      this.personService.updatePerson(this.person.id, {...this.person, ...data})
-        .subscribe(() => this.router.navigate(['/people', this.person.id]));
+      
+      if (this.person.id) {
+        this.personService.updatePerson(this.person.id, {...this.person, ...data})
+          .subscribe(() => this.router.navigate(['/people', this.person.id]));
+      } else {
+        this.personService.createPerson(data)
+          .subscribe((person: PersonInterface) =>
+            this.router.navigate(['/people', person.id]));
+      }
     }
   }
 

@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
+
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MatButtonModule } from '@angular/material/button';
+
 import { GoToLinkButtonComponent } from 'src/app/templates/go-to-link-button/go-to-link-button.component';
 
 @NgModule({
@@ -7,7 +10,8 @@ import { GoToLinkButtonComponent } from 'src/app/templates/go-to-link-button/go-
     GoToLinkButtonComponent
   ],
   imports: [
-    FontAwesomeModule
+    FontAwesomeModule,
+    MatButtonModule
   ],
   exports: [
     GoToLinkButtonComponent

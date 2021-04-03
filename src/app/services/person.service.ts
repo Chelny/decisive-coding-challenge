@@ -31,6 +31,17 @@ export class PersonService {
     ).subscribe();
   }
 
+  public createPerson(person: PersonInterface): Observable<PersonInterface> {
+    const URL: string = `${API_URL}/people`;
+
+    return this.http.post<PersonInterface>(URL, person).pipe(
+      map((person: PersonInterface) => {
+        this.personCache.set(`${URL}/${person.id}`, person);
+        return person;
+      })
+    );
+  }
+
   public getPerson(id: string): Observable<PersonInterface> {
     const URL: string = `${API_URL}/people/${id}`;
     const cachedPerson: PersonInterface = this.personCache.get(URL);
